@@ -1,0 +1,1 @@
+import"./vacancies.C_1d2uVy.js";
