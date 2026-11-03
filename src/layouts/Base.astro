@@ -1,0 +1,94 @@
+---
+import '@fontsource-variable/unbounded';
+import '@fontsource-variable/onest';
+import '../styles/global.css';
+import Footer from '../components/Footer.astro';
+import UnitTile from '../components/UnitTile.astro';
+import { org, units, type Unit } from '../data/site';
+import { withBase } from '../utils/url';
+
+interface Props { title?: string; description?: string; unit?: Unit; }
+const { title, description = `${org.name}: частини, вакансії та анкета для кандидатів.`, unit } = Astro.props;
+const fullTitle = title ? `${title} · ${org.name}` : org.name;
+const prod = import.meta.env.PROD;
+const csp = "default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self'; connect-src 'self'; form-action 'self'; base-uri 'self'; object-src 'none'";
+const nav = [
+  ['Частини', '/#units'],
+  ['Вакансії', '/#vacancies'],
+  ['Анкета', '/#anketa'],
+  ['Програми', '/#programs'],
+];
+---
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {prod && <meta http-equiv="Content-Security-Policy" content={csp} />}
+    {import.meta.env.PUBLIC_DEMO === 'true' && <meta name="robots" content="noindex, nofollow" />}
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="theme-color" content="#12110f" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" href={withBase('/img/favicon.svg')} type="image/svg+xml" />
+  </head>
+  <body>
+    <a class="skip" href="#main">До основного вмісту</a>
+
+    <header class="topbar">
+      <a class="brand" href={withBase('/')}>
+        <span class="emblem emblem--sm" aria-hidden="true"><span>{org.mark}</span></span>
+        <span class="brand__name"><b>{org.name}</b><small>{org.parent}</small></span>
+      </a>
+      <div class="topbar__actions">
+        <a class="btn btn--sm" href={withBase('/#anketa')}><span class="only-wide">Заповнити анкету</span><span class="only-narrow">Анкета</span></a>
+        <button class="burger" type="button" data-menu-open aria-haspopup="dialog" aria-controls="site-menu" aria-label="Відкрити меню">
+          <span class="burger__lines" aria-hidden="true"><i></i><i></i><i></i></span>
+        </button>
+      </div>
+    </header>
+    <noscript><style>.burger { display: none; }</style></noscript>
+
+    <dialog class="menu" id="site-menu" aria-label="Меню сайту" data-menu>
+      <div class="topbar topbar--menu">
+        <a class="brand" href={withBase('/')}>
+          <span class="emblem emblem--sm" aria-hidden="true"><span>{org.mark}</span></span>
+          <span class="brand__name"><b>{org.name}</b><small>{org.parent}</small></span>
+        </a>
+        <div class="topbar__actions">
+          <a class="btn btn--sm" href={withBase('/#anketa')} data-menu-link><span class="only-wide">Заповнити анкету</span><span class="only-narrow">Анкета</span></a>
+          <button class="burger burger--close" type="button" data-menu-close aria-label="Закрити меню" autofocus>
+            <span class="burger__lines" aria-hidden="true"><i></i><i></i><i></i></span>
+          </button>
+        </div>
+      </div>
+
+      <div class="menu__body">
+        <nav aria-label="Розділи сайту">
+          <ul class="menu__links">
+            {nav.map(([label, href]) => (
+              <li><a class="menu__link" href={withBase(href)} data-menu-link data-nav={href.slice(2)}>{label}{href === '/#vacancies' && <span class="btn__count" data-vacancy-count hidden></span>}</a></li>
+            ))}
+          </ul>
+        </nav>
+
+        <nav class="menu__units" aria-label="Частини та підрозділи">
+          <p class="menu__label" aria-hidden="true">Частини та підрозділи</p>
+          <ul class="menu__grid">
+            {units.map((u, i) => (
+              <UnitTile unit={u} menu current={Astro.url.pathname === withBase(`/pidrozdily/${u.slug}/`)} delay={2 - (i % 3) + Math.floor(i / 3)} />
+            ))}
+          </ul>
+        </nav>
+      </div>
+
+      <p class="menu__foot"><a href={withBase('/privacy/')} data-menu-link>Політика конфіденційності</a></p>
+    </dialog>
+
+    <main id="main"><slot /></main>
+
+    <Footer unit={unit} />
+
+    <script src="../scripts/ui.ts"></script>
+  </body>
+</html>

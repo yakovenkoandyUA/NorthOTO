@@ -1,0 +1,46 @@
+---
+import Base from '../../layouts/Base.astro';
+import Emblem from '../../components/Emblem.astro';
+import Vacancies from '../../components/Vacancies.astro';
+import { units, type Unit } from '../../data/site';
+import { withBase } from '../../utils/url';
+
+export function getStaticPaths() {
+  return units.map((unit) => ({ params: { slug: unit.slug }, props: { unit } }));
+}
+const { unit } = Astro.props as { unit: Unit };
+const index = units.findIndex((u) => u.id === unit.id);
+const next = units[(index + 1) % units.length];
+const prev = units[(index - 1 + units.length) % units.length];
+---
+<Base title={unit.title} unit={unit}>
+  <section class="uhero">
+    {unit.image && <img class="uhero__media" src={withBase(unit.image)} alt="" />}
+    <div class="uhero__inner">
+      <nav class="crumbs" aria-label="Навігація"><a href={withBase('/#units')}>Частини та підрозділи</a><span aria-hidden="true">/</span><span>{unit.placeholder ? unit.title : `в/ч ${unit.id}`}</span></nav>
+      <div class="uhero__row">
+        <Emblem unit={unit} size="lg" />
+        <h1 class="uhero__title">{unit.title}</h1>
+      </div>
+    </div>
+    <span class="uhero__ghost" aria-hidden="true">{unit.mark}</span>
+  </section>
+
+  <section class="section" aria-labelledby="about-title">
+    <header class="section__head"><h2 class="section__title" id="about-title">Про частину</h2></header>
+    {unit.about?.length
+      ? <div class="prose">{unit.about.map((p) => <p>{p}</p>)}</div>
+      : <p class="draft">Текст надасть частина. Тут буде опис, історія та напрями служби.</p>}
+  </section>
+
+  <section class="section section--plate" aria-labelledby="unit-vac-title">
+    <header class="section__head"><h2 class="section__title" id="unit-vac-title">Вакансії</h2></header>
+    <Vacancies lockUnit={unit} />
+    <a class="btn uhero__cta" href={withBase(`/?unit=${encodeURIComponent(unit.id)}#anketa`)}>Заповнити анкету</a>
+  </section>
+
+  <nav class="pager" aria-label="Інші частини">
+    <a href={withBase(`/pidrozdily/${prev.slug}/`)}><small>← Попередня</small>{prev.title}</a>
+    <a href={withBase(`/pidrozdily/${next.slug}/`)}><small>Наступна →</small>{next.title}</a>
+  </nav>
+</Base>

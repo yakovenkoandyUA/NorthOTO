@@ -1,0 +1,53 @@
+---
+import { contacts as orgContacts, org, type Unit } from '../data/site';
+import { socialIcons, type SocialNetwork } from '../data/social-icons';
+import { withBase } from '../utils/url';
+
+interface Props { unit?: Unit; }
+const { unit } = Astro.props;
+// Сторінка частини показує її контакти, якщо вони задані; решта сторінок — контакти управління.
+const owner = unit?.contacts ? unit : undefined;
+const contacts = owner?.contacts ?? orgContacts;
+const networks = (Object.keys(socialIcons) as SocialNetwork[]).filter((n) => n in contacts.socials);
+---
+<footer class="footer">
+  <div class="footer__main">
+    <a class="brand footer__brand" href={withBase('/')}>
+      <span class="emblem emblem--sm" aria-hidden="true"><span>{org.mark}</span></span>
+      <span class="footer__org"><span class="footer__name">{org.name}</span><span class="footer__sub">{org.parent}</span></span>
+    </a>
+
+    <nav aria-label="Розділи сайту у футері">
+      <ul class="footer__links">
+        <li><a href={withBase('/#units')}>Частини</a></li>
+        <li><a href={withBase('/#vacancies')}>Вакансії</a></li>
+        <li><a href={withBase('/#anketa')}>Анкета</a></li>
+        <li><a href={withBase('/#programs')}>Програми</a></li>
+      </ul>
+    </nav>
+
+    <div class="footer__contact">
+      {owner && <p class="footer__owner">{owner.title}</p>}
+      <p class="footer__label">Пошта для листування</p>
+      {contacts.email
+        ? <a class="footer__mail" href={`mailto:${contacts.email}`}>{contacts.email}</a>
+        : <p class="footer__mail footer__mail--empty">Адреса уточнюється</p>}
+      <ul class="social" aria-label={owner ? `Соціальні мережі: ${owner.title}` : 'Соціальні мережі'}>
+        {networks.map((network) => {
+          const url = contacts.socials[network];
+          const { label, path } = socialIcons[network];
+          const icon = <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d={path} /></svg>;
+          return (
+            <li>
+              {url
+                ? <a class="social__item" href={url} target="_blank" rel="noopener noreferrer" aria-label={label}>{icon}</a>
+                : <span class="social__item social__item--empty" role="img" aria-label={`${label}: посилання уточнюється`} title="Посилання уточнюється">{icon}</span>}
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  </div>
+
+  <p class="footer__legal"><a href={withBase('/privacy/')}>Політика конфіденційності</a></p>
+</footer>

@@ -1,0 +1,34 @@
+---
+import { withBase } from '../utils/url';
+import { units, type Unit } from '../data/site';
+import Emblem from './Emblem.astro';
+
+interface Props { lockUnit?: Unit; }
+const { lockUnit } = Astro.props;
+const unitMap = units.map(({ id, mark, title, emblem }) => ({ id, mark, title, emblem: emblem && withBase(emblem) }));
+---
+<div class="vac" data-vacancies data-lock-unit={lockUnit?.id ?? ''}>
+  <script type="application/json" data-units set:html={JSON.stringify(unitMap).replace(/</g, '\\u003c')}></script>
+
+  {!lockUnit && (
+    <div class="chips" role="group" aria-label="Фільтр вакансій за частиною">
+      <button class="chip chip--all" type="button" data-filter="" aria-pressed="true">
+        <span class="chip__label">Усі</span><span class="chip__count" data-count=""></span>
+      </button>
+      {units.map((u) => (
+        <button class="chip" type="button" data-filter={u.id} aria-pressed="false" aria-label={u.title} title={u.title}>
+          <Emblem unit={u} />
+          <span class="chip__count" data-count={u.id}></span>
+        </button>
+      ))}
+    </div>
+  )}
+
+  <div class="vac__list" data-list aria-live="polite" aria-busy="true">
+    <p class="vac__state" data-state>Завантажуємо вакансії…</p>
+  </div>
+  <button class="btn btn--ghost vac__more" type="button" data-more hidden></button>
+  <noscript><p class="vac__state">Щоб побачити вакансії, увімкніть JavaScript або заповніть <a href={withBase('/#anketa')}>анкету</a>.</p></noscript>
+</div>
+
+<script src="../scripts/vacancies.ts"></script>

@@ -1,0 +1,9 @@
+---
+import type { Unit } from '../data/site';
+import { withBase } from '../utils/url';
+interface Props { unit: Pick<Unit, 'mark' | 'emblem'>; size?: 'sm' | 'lg'; }
+const { unit, size } = Astro.props;
+---
+{unit.emblem
+  ? <img class:list={['emblem-img', size && `emblem-img--${size}`]} src={withBase(unit.emblem)} alt="" loading="lazy" />
+  : <span class:list={['emblem', size && `emblem--${size}`]} aria-hidden="true"><span>{unit.mark}</span></span>}

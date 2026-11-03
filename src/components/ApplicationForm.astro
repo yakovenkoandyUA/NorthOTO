@@ -1,0 +1,52 @@
+---
+import { units } from '../data/site';
+import { withBase } from '../utils/url';
+---
+<form class="form" action={withBase('/api/contact.php')} method="post" data-form novalidate>
+  <div class="form__row">
+    <div class="field">
+      <label for="f-name">Ім'я та прізвище</label>
+      <input id="f-name" name="name" type="text" autocomplete="name" required minlength="2" maxlength="100" />
+      <p class="field__error" data-error="name" hidden></p>
+    </div>
+    <div class="field">
+      <label for="f-phone">Телефон</label>
+      <input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+380" required maxlength="24" />
+      <p class="field__error" data-error="phone" hidden></p>
+    </div>
+  </div>
+  <div class="form__row">
+    <div class="field">
+      <label for="f-unit">Частина</label>
+      <select id="f-unit" name="unit">
+        <option value="">Будь-яка</option>
+        {units.map((u) => <option value={u.id} data-mark={u.mark} data-emblem={u.emblem && withBase(u.emblem)}>{u.title}</option>)}
+      </select>
+    </div>
+    <div class="field">
+      <label for="f-vacancy">Вакансія <span class="field__opt">необов'язково</span></label>
+      <input id="f-vacancy" name="vacancy" type="text" maxlength="160" />
+    </div>
+  </div>
+  <div class="field">
+    <label for="f-comment">Коментар <span class="field__opt">необов'язково</span></label>
+    <textarea id="f-comment" name="comment" rows="4" maxlength="1500"></textarea>
+  </div>
+
+  <div class="field field--trap" aria-hidden="true">
+    <label for="f-website">Не заповнюйте це поле</label>
+    <input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+  </div>
+
+  <div class="consent">
+    <input id="f-consent" name="consent" type="checkbox" value="1" required />
+    <label for="f-consent">Я погоджуюсь на обробку моїх персональних даних для розгляду кандидатури. <a href={withBase('/privacy/')}>Детальніше</a></label>
+    <p class="field__error" data-error="consent" hidden></p>
+  </div>
+
+  <div class="form__foot">
+    <button class="btn" type="submit">Надіслати анкету</button>
+    <p class="form__status" data-status role="status"></p>
+  </div>
+</form>
+<script src="../scripts/form.ts"></script>

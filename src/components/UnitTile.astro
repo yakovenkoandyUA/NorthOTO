@@ -1,0 +1,25 @@
+---
+import type { Unit } from '../data/site';
+import { withBase } from '../utils/url';
+
+interface Props {
+  unit: Unit;
+  // Компактна плитка для меню: `delay` задає чергу появи після відкриття.
+  menu?: boolean;
+  delay?: number;
+  current?: boolean;
+}
+const { unit: u, menu = false, delay, current = false } = Astro.props;
+---
+<li class:list={['unit', { 'unit--draft': u.placeholder }]} style={delay === undefined ? undefined : `--d: ${delay}`}>
+  <a class="unit__link" href={withBase(`/pidrozdily/${u.slug}/`)} data-menu-link={menu ? '' : undefined} aria-current={current ? 'page' : undefined}>
+    {!menu && u.tilePhoto && <span class="unit__photo"><img src={withBase(u.tilePhoto)} alt="" loading="lazy" decoding="async" /></span>}
+    <span class="unit__top">
+      <span class="unit__id">{u.placeholder ? 'Підрозділ' : `в/ч ${u.id}`}</span>
+      <span class="unit__open" data-unit-count={u.id} hidden><span class="unit__open-label">Вакансій: </span><span data-n></span></span>
+    </span>
+    <span class="unit__mark" aria-hidden="true">{u.mark}</span>
+    <span class="unit__name"><span class="sr">{u.title}</span><span aria-hidden="true">{u.caption}</span></span>
+    <span class="unit__arrow" aria-hidden="true">↗</span>
+  </a>
+</li>

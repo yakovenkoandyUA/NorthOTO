@@ -1,0 +1,90 @@
+---
+import Base from '../layouts/Base.astro';
+import UnitTile from '../components/UnitTile.astro';
+import Vacancies from '../components/Vacancies.astro';
+import VacanciesSimple from '../components/VacanciesSimple.astro';
+import ApplicationForm from '../components/ApplicationForm.astro';
+import { hero, org, units, programs } from '../data/site';
+import { withBase } from '../utils/url';
+---
+<Base>
+  <section class="hero">
+    <img class="hero__media" src={withBase(hero.image)} alt="" fetchpriority="high" />
+    <div class="hero__inner">
+      <p class="hero__kicker">{org.parent}</p>
+      <h1 class="hero__title">
+        <span class="hero__line">{hero.lineOne}</span>
+        <span class="hero__line hero__line--accent">{hero.lineTwo}</span>
+      </h1>
+      <p class="hero__lead">{hero.lead}</p>
+      <div class="hero__actions">
+        <a class="btn" href="#anketa">Заповнити анкету</a>
+        <a class="btn btn--ghost" href="#vacancies">Вакансії<span class="btn__count" data-vacancy-count hidden></span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="units" aria-labelledby="units-title">
+    <header class="section__head">
+      <h2 class="section__title" id="units-title">Частини та підрозділи</h2>
+    </header>
+    <ul class="units">
+      {units.map((u) => <UnitTile unit={u} />)}
+    </ul>
+  </section>
+
+  <section class="section section--plate" id="vacancies" aria-labelledby="vac-title">
+    <header class="section__head">
+      <h2 class="section__title" id="vac-title">Вакансії</h2>
+    </header>
+    {/* Тимчасово два варіанти для показу частині. Після вибору лишити один без <details>. */}
+    <div class="variants">
+      <details class="variant" name="vacancy-variant" open>
+        <summary class="variant__head">
+          <span class="variant__name">Варіант 1</span>
+          <span class="variant__note">Одна картка на посаду, емблеми показують частини</span>
+          <span class="variant__icon" aria-hidden="true"></span>
+        </summary>
+        <div class="variant__body">
+          <p class="section__lead variant__lead">Золоті емблеми вказують на частини з відкритими вакансіями. Натисніть на емблему, щоб побачити вакансії лише цієї частини.</p>
+          <Vacancies />
+        </div>
+      </details>
+      <details class="variant" name="vacancy-variant">
+        <summary class="variant__head">
+          <span class="variant__name">Варіант 2</span>
+          <span class="variant__note">Окрема картка на кожну вакансію в кожній частині</span>
+          <span class="variant__icon" aria-hidden="true"></span>
+        </summary>
+        <div class="variant__body">
+          <VacanciesSimple />
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <section class="section apply" id="anketa" aria-labelledby="form-title">
+    <header class="apply__head">
+      <h2 class="apply__title" id="form-title">Анкета кандидата</h2>
+      <p class="section__lead">Залиште контакти, і з вами зв'яжуться. Файли та документи на цьому етапі не потрібні.</p>
+    </header>
+    <ApplicationForm />
+  </section>
+
+  <section class="section section--tight" id="programs" aria-labelledby="prog-title">
+    <header class="section__head section__head--center">
+      <h2 class="section__title" id="prog-title">Програми</h2>
+    </header>
+    <ul class="programs" data-count={programs.length}>
+      {programs.map((p) => (
+        <li>
+          <a class:list={['program', { 'program--image': p.image }]} href={p.href}>
+            {p.image
+              ? <img src={withBase(p.image)} alt={p.title} loading="lazy" />
+              : <><span class="program__title">{p.title}</span><span class="program__note">{p.note}</span><span class="program__arrow" aria-hidden="true">↗</span></>}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+</Base>

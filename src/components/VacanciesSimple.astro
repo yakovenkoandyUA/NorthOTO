@@ -1,0 +1,14 @@
+---
+// Варіант 2 секції вакансій: окрема картка на кожен рядок таблиці.
+import { withBase } from '../utils/url';
+import { units } from '../data/site';
+const unitMap = units.map(({ id, mark, title, emblem }) => ({ id, mark, title, emblem: emblem && withBase(emblem) }));
+---
+<div class="vac" data-vacancies-simple>
+  <script type="application/json" data-units set:html={JSON.stringify(unitMap).replace(/</g, '\\u003c')}></script>
+  <div class="vac__list" data-list aria-live="polite" aria-busy="true">
+    <p class="vac__state">Завантажуємо вакансії…</p>
+  </div>
+  <button class="btn btn--ghost vac__more" type="button" data-more hidden></button>
+</div>
+<script src="../scripts/vacancies.ts"></script>
