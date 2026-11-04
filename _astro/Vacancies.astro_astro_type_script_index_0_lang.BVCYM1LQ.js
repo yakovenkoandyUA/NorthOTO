@@ -1,0 +1,1 @@
+import"./vacancies.DHH5Ocj5.js";
