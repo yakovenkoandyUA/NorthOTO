@@ -1,0 +1,1 @@
+import"./vacancies.BD0LeADb.js";
