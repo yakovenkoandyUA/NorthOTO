@@ -13,7 +13,7 @@ const { unit: u, menu = false, delay, current = false } = Astro.props;
 ---
 <li class:list={['unit', { 'unit--draft': u.placeholder }]} style={delay === undefined ? undefined : `--d: ${delay}`}>
   <a class="unit__link" href={withBase(`/pidrozdily/${u.slug}/`)} data-menu-link={menu ? '' : undefined} aria-current={current ? 'page' : undefined}>
-    {!menu && u.tilePhoto && <span class="unit__photo"><img src={withBase(u.tilePhoto)} alt="" loading="lazy" decoding="async" /></span>}
+    {!menu && u.photo && <span class="unit__photo"><img src={withBase(u.photo)} alt="" loading="lazy" decoding="async" /></span>}
     <span class="unit__top">
       <span class="unit__id">{u.placeholder ? 'Підрозділ' : `в/ч ${u.id}`}</span>
       <span class="unit__open" data-unit-count={u.id} hidden><span class="unit__open-label">Вакансій: </span><span data-n></span></span>
