@@ -27,6 +27,7 @@ import { withBase } from '../utils/url';
   <section class="section" id="units" aria-labelledby="units-title">
     <header class="section__head">
       <h2 class="section__title" id="units-title">Частини та підрозділи</h2>
+      <p class="section__lead">{org.about}</p>
     </header>
     <ul class="units">
       {units.map((u) => <UnitTile unit={u} />)}
