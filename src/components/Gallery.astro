@@ -2,29 +2,30 @@
 import { withBase } from '../utils/url';
 import type { Unit } from '../data/site';
 
+// Колаж фото частини всередині розділу «Про частину». Розкладка залежить від кількості фото (див. .mosaic у стилях).
 interface Props { unit: Unit; }
 const { unit } = Astro.props;
 const photos = unit.gallery ?? [];
 ---
 {photos.length > 0 && (
-  <section class="section section--plate" aria-labelledby="gallery-title">
-    <header class="section__head"><h2 class="section__title" id="gallery-title">Фото</h2></header>
-    <ul class="gallery" data-gallery>
-      {photos.map((src, i) => (
-        <li>
-          <button class="gallery__item" type="button" data-full={withBase(src)} aria-label={`Відкрити фото ${i + 1} з ${photos.length}`}>
-            <img src={withBase(src)} alt="" loading="lazy" decoding="async" />
-          </button>
-        </li>
-      ))}
-    </ul>
-    <dialog class="lightbox" data-lightbox aria-label={`Фото: ${unit.title}`}>
-      <img class="lightbox__img" alt="" />
-      <p class="lightbox__count" aria-live="polite"></p>
-      <button class="lightbox__btn lightbox__close" type="button" data-lb="close" aria-label="Закрити">×</button>
-      <button class="lightbox__btn lightbox__prev" type="button" data-lb="prev" aria-label="Попереднє фото">‹</button>
-      <button class="lightbox__btn lightbox__next" type="button" data-lb="next" aria-label="Наступне фото">›</button>
-    </dialog>
-  </section>
+  <ul class="mosaic" data-gallery data-count={Math.min(photos.length, 5)} aria-label={`Фото: ${unit.title}`}>
+    {photos.slice(0, 5).map((src, i) => (
+      <li class="mosaic__cell" style={`--i: ${i}`}>
+        <button class="mosaic__item" type="button" data-full={withBase(src)} aria-label={`Відкрити фото ${i + 1} з ${photos.length}`}>
+          <img src={withBase(src)} alt="" loading="lazy" decoding="async" />
+          <span class="mosaic__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+        </button>
+      </li>
+    ))}
+  </ul>
+)}
+{photos.length > 0 && (
+  <dialog class="lightbox" data-lightbox aria-label={`Фото: ${unit.title}`}>
+    <img class="lightbox__img" alt="" />
+    <p class="lightbox__count" aria-live="polite"></p>
+    <button class="lightbox__btn lightbox__close" type="button" data-lb="close" aria-label="Закрити">×</button>
+    <button class="lightbox__btn lightbox__prev" type="button" data-lb="prev" aria-label="Попереднє фото">‹</button>
+    <button class="lightbox__btn lightbox__next" type="button" data-lb="next" aria-label="Наступне фото">›</button>
+  </dialog>
 )}
 <script src="../scripts/gallery.ts"></script>

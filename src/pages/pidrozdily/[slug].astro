@@ -37,13 +37,17 @@ const about = unit.about?.length ? unit.about : placeholderAbout;
 
   <section class="section" aria-labelledby="about-title">
     <header class="section__head"><h2 class="section__title" id="about-title">Про частину</h2></header>
-    <div class:list={['about', { 'about--photo': unit.photo }]}>
-      <div class="prose about__text">{about.map((p) => <p>{p}</p>)}</div>
-      {unit.photo && <figure class="about__photo"><img src={withBase(unit.photo)} alt="" loading="lazy" decoding="async" /></figure>}
-    </div>
+    {/* Є кілька фото: колаж замість окремої секції. Інакше одне фото поруч із текстом. */}
+    {unit.gallery && unit.gallery.length > 1
+      ? <div class="about about--mosaic">
+          <div class="prose about__text">{about.map((p) => <p>{p}</p>)}</div>
+          <Gallery unit={unit} />
+        </div>
+      : <div class:list={['about', { 'about--photo': unit.photo }]}>
+          <div class="prose about__text">{about.map((p) => <p>{p}</p>)}</div>
+          {unit.photo && <figure class="about__photo"><img src={withBase(unit.photo)} alt="" loading="lazy" decoding="async" /></figure>}
+        </div>}
   </section>
-
-  <Gallery unit={unit} />
 
   <section class="section section--plate" aria-labelledby="unit-vac-title">
     <header class="section__head"><h2 class="section__title" id="unit-vac-title">Вакансії</h2></header>
