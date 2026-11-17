@@ -499,6 +499,29 @@ html.menu-open { overflow: hidden; scrollbar-gutter: stable; }
 }
 .about__photo img { width: 100%; height: 100%; object-fit: cover; }
 .about__photo::after { content: ''; position: absolute; inset: 0; box-shadow: inset 0 0 0 1px var(--line); }
+/* Галерея фото частини та перегляд на весь екран */
+.gallery { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.75rem; }
+.gallery__item {
+  position: relative; display: block; width: 100%; aspect-ratio: 3 / 2; padding: 0; border: 0; overflow: hidden; cursor: zoom-in; background: var(--plate);
+  clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%);
+}
+.gallery__item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s var(--ease), filter 0.3s; }
+.gallery__item:hover img, .gallery__item:focus-visible img { transform: scale(1.05); filter: brightness(1.12); }
+.gallery__item:focus-visible { outline: 2px solid var(--gold); outline-offset: -4px; }
+.lightbox { position: fixed; inset: 0; width: 100%; height: 100dvh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: rgb(10 9 8 / 0.94); color: var(--bone); }
+.lightbox[open] { display: grid; place-items: center; animation: select-open 0.25s var(--ease) both; }
+.lightbox::backdrop { background: transparent; }
+.lightbox__img { max-width: min(94vw, 1500px); max-height: 86dvh; object-fit: contain; }
+.lightbox__count { position: absolute; bottom: 1rem; left: 0; right: 0; text-align: center; font-size: 0.875rem; color: var(--muted); }
+.lightbox__btn {
+  position: absolute; display: grid; place-items: center; width: 3rem; height: 3rem; padding: 0 0 0.15rem; border: 0; cursor: pointer;
+  background: var(--plate-2); color: var(--bone); font: 400 1.75rem/1 var(--body); transition: background 0.2s, color 0.2s;
+}
+.lightbox__btn:hover, .lightbox__btn:focus-visible { background: var(--gold); color: var(--ink); }
+.lightbox__close { top: 1rem; right: 1rem; }
+.lightbox__prev, .lightbox__next { top: 50%; margin-top: -1.5rem; }
+.lightbox__prev { left: 1rem; }
+.lightbox__next { right: 1rem; }
 .draft { max-width: 46rem; padding: 1.25rem 1.5rem; border: 1px dashed var(--gold); color: var(--gold-bright); }
 .prose { max-width: 46rem; display: grid; gap: 1rem; }
 .prose ul { display: grid; gap: 0.35rem; padding-left: 1.25rem; list-style: disc; }
@@ -573,6 +596,7 @@ a.social__item:hover { background: var(--gold); color: var(--ink); transform: tr
   .form { clip-path: none; }
   .hero__actions .btn { flex: 1 1 100%; }
   .footer__main { grid-template-columns: minmax(0, 1fr); }
+  .gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .about--photo { grid-template-columns: minmax(0, 1fr); }
   .about__photo { order: -1; }
   .pager { grid-template-columns: minmax(0, 1fr); }

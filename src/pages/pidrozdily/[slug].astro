@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Emblem from '../../components/Emblem.astro';
+import Gallery from '../../components/Gallery.astro';
 import Vacancies from '../../components/Vacancies.astro';
 import { units, type Unit } from '../../data/site';
 import { withBase } from '../../utils/url';
@@ -41,6 +42,8 @@ const about = unit.about?.length ? unit.about : placeholderAbout;
       {unit.photo && <figure class="about__photo"><img src={withBase(unit.photo)} alt="" loading="lazy" decoding="async" /></figure>}
     </div>
   </section>
+
+  <Gallery unit={unit} />
 
   <section class="section section--plate" aria-labelledby="unit-vac-title">
     <header class="section__head"><h2 class="section__title" id="unit-vac-title">Вакансії</h2></header>

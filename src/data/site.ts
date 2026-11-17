@@ -39,48 +39,87 @@ export type Unit = {
   placeholder?: boolean;
   emblem?: string; // шлях до емблеми у public/
   image?: string; // шлях до фото у public/
+  gallery?: string[]; // усі фото частини для галереї на її сторінці, шляхи в public/
   photo?: string; // фото частини: на плитці при наведенні та в розділі «Про частину», шлях у public/
   about?: string[]; // абзаци опису від частини
   contacts?: Contacts; // контакти у футері сторінки частини; без них показуються контакти управління
 };
 
-// ЧЕРНЕТКА: контакти надасть частина, а placeholder-*.webp це згенеровані заглушки замість фото.
+// ЧЕРНЕТКА: контакти надасть частина. Фото частин реальні; placeholder-*.webp (19 бригада та підрозділи) це заглушки.
 export const units: Unit[] = [
   { id: '3030', slug: '3030', mark: '25', title: '25 бригада охорони громадського порядку імені князя Аскольда', caption: 'Бригада охорони громадського порядку імені князя Аскольда',
     about: [
       'Підрозділ виконує завдання із забезпечення громадської безпеки та оборони держави. Військовослужбовці бригади залучаються до бойової служби, охорони порядку та виконання завдань у складі Сил оборони України.',
     ],
-    photo: '/img/units/placeholder-1.webp',
+    photo: '/img/units/3030-1.webp',
+    gallery: [
+      '/img/units/3030-1.webp',
+      '/img/units/3030-2.webp',
+      '/img/units/3030-3.webp',
+    ],
     contacts: { email: '', socials: { facebook: '', instagram: '', youtube: '' } } },
   { id: '3041', slug: '3041', mark: '28', title: '28 Чорнобильський полк', caption: 'Чорнобильський полк',
     about: [
       'Полк виконує завдання з охорони важливих державних об’єктів та бере участь у виконанні бойових завдань. Служба поєднує охоронні, тактичні та бойові напрями підготовки.',
     ],
-    photo: '/img/units/placeholder-2.webp',
+    photo: '/img/units/3041-1.webp',
+    gallery: [
+      '/img/units/3041-1.webp',
+      '/img/units/3041-2.webp',
+      '/img/units/3041-3.webp',
+      '/img/units/3041-4.webp',
+      '/img/units/3041-5.webp',
+    ],
     contacts: { email: '', socials: { facebook: '', instagram: '', youtube: '' } } },
   { id: '3047', slug: '3047', mark: '38', title: '38 Поліський полк', caption: 'Поліський полк',
     about: [
       'Підрозділ виконує службові та бойові завдання, забезпечує громадську безпеку та захист держави. Особовий склад постійно проходить бойову й тактичну підготовку.',
     ],
-    photo: '/img/units/placeholder-3.webp',
+    photo: '/img/units/3047-4.webp',
+    gallery: [
+      '/img/units/3047-1.webp',
+      '/img/units/3047-2.webp',
+      '/img/units/3047-3.webp',
+      '/img/units/3047-4.webp',
+      '/img/units/3047-5.webp',
+    ],
     contacts: { email: '', socials: { facebook: '', instagram: '', youtube: '' } } },
   { id: '3061', slug: '3061', mark: '31', title: '31 полк', caption: 'Полк',
     about: [
       'Полк виконує завдання із забезпечення безпеки, оборони та підтримання готовності до дій у різних умовах. У підрозділі представлені бойові, тилові, технічні та забезпечувальні спеціальності.',
     ],
-    photo: '/img/units/placeholder-4.webp',
+    photo: '/img/units/3061-5.webp',
+    gallery: [
+      '/img/units/3061-1.webp',
+      '/img/units/3061-2.webp',
+      '/img/units/3061-3.webp',
+      '/img/units/3061-4.webp',
+      '/img/units/3061-5.webp',
+    ],
     contacts: { email: '', socials: { facebook: '', instagram: '', youtube: '' } } },
   { id: '3066', slug: '3066', mark: '27', title: '27 Печерська бригада', caption: 'Печерська бригада',
     about: [
       'Бригада виконує бойові та спеціальні завдання у складі Сил оборони України. Серед напрямів служби є безпілотні системи, розвідка, бойові підрозділи та інші військові спеціальності.',
     ],
-    photo: '/img/units/placeholder-5.webp',
+    photo: '/img/units/3066-1.webp',
+    gallery: [
+      '/img/units/3066-1.webp',
+      '/img/units/3066-2.webp',
+      '/img/units/3066-3.webp',
+      '/img/units/3066-4.webp',
+    ],
     contacts: { email: '', socials: { facebook: '', instagram: '', youtube: '' } } },
   { id: '3082', slug: '3082', mark: '10', title: '10 бригада імені князя Святослава Ярославича', caption: 'Бригада імені князя Святослава Ярославича',
     about: [
       'Підрозділ виконує бойові завдання із захисту України та бере участь в обороні північних регіонів держави. Служба передбачає широкий вибір бойових, тилових та забезпечувальних напрямів.',
     ],
-    photo: '/img/units/placeholder-6.webp',
+    photo: '/img/units/3082-1.webp',
+    gallery: [
+      '/img/units/3082-1.webp',
+      '/img/units/3082-2.webp',
+      '/img/units/3082-3.webp',
+      '/img/units/3082-4.webp',
+    ],
     contacts: { email: '', socials: { facebook: '', instagram: '', youtube: '' } } },
   { id: '3114', slug: '3114', mark: '19', title: '19 бригада', caption: 'Бригада',
     about: [
