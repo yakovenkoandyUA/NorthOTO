@@ -2,7 +2,6 @@
 import Base from '../layouts/Base.astro';
 import UnitTile from '../components/UnitTile.astro';
 import Vacancies from '../components/Vacancies.astro';
-import VacanciesSimple from '../components/VacanciesSimple.astro';
 import ApplicationForm from '../components/ApplicationForm.astro';
 import { hero, org, units, programs } from '../data/site';
 import { withBase } from '../utils/url';
@@ -38,30 +37,7 @@ import { withBase } from '../utils/url';
     <header class="section__head">
       <h2 class="section__title" id="vac-title">Вакансії</h2>
     </header>
-    {/* Тимчасово два варіанти для показу частині. Після вибору лишити один без <details>. */}
-    <div class="variants">
-      <details class="variant" name="vacancy-variant" open>
-        <summary class="variant__head">
-          <span class="variant__name">Варіант 1</span>
-          <span class="variant__note">Одна картка на посаду, емблеми показують частини</span>
-          <span class="variant__icon" aria-hidden="true"></span>
-        </summary>
-        <div class="variant__body">
-          <p class="section__lead variant__lead">Золоті емблеми вказують на частини з відкритими вакансіями. Натисніть на емблему, щоб побачити вакансії лише цієї частини.</p>
-          <Vacancies />
-        </div>
-      </details>
-      <details class="variant" name="vacancy-variant">
-        <summary class="variant__head">
-          <span class="variant__name">Варіант 2</span>
-          <span class="variant__note">Окрема картка на кожну вакансію в кожній частині</span>
-          <span class="variant__icon" aria-hidden="true"></span>
-        </summary>
-        <div class="variant__body">
-          <VacanciesSimple />
-        </div>
-      </details>
-    </div>
+    <Vacancies />
   </section>
 
   <section class="section apply" id="anketa" aria-labelledby="form-title">

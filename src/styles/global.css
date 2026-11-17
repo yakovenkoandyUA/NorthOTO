@@ -341,21 +341,6 @@ html.menu-open { overflow: hidden; scrollbar-gutter: stable; }
 .unit--draft .unit__name { color: var(--muted); }
 
 /* Вакансії */
-.chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem; }
-.chip {
-  position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
-  min-height: 4.5rem; min-width: 4.25rem; padding: 0.5rem 0.75rem;
-  background: var(--ink); border: 1px solid var(--line-soft); color: var(--muted); cursor: pointer;
-  font: 600 0.75rem/1 var(--display); text-transform: uppercase;
-  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
-}
-.chip__count { font-size: 0.6875rem; color: inherit; }
-.chip__count:empty { display: none; }
-.chip.has-open .emblem { background: var(--gold); color: var(--ink); }
-.chip.has-open .emblem-img { filter: none; }
-.chip.has-open { color: var(--gold); }
-.chip:hover, .chip.is-lit { border-color: var(--gold); box-shadow: 0 0 22px rgb(var(--gold-rgb) / 0.28); }
-.chip[aria-pressed='true'] { background: var(--plate-2); border-color: var(--gold); color: var(--gold); }
 
 .vac__list { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; }
 .vcard {
@@ -377,65 +362,14 @@ html.menu-open { overflow: hidden; scrollbar-gutter: stable; }
 .vcard__unit { font-size: 0.875rem; line-height: 1.35; color: var(--gold-bright); }
 .vcard__desc { color: var(--muted); font-size: 0.9375rem; line-height: 1.5; white-space: pre-line; }
 .vcard__foot { display: grid; gap: 1rem; margin-top: auto; padding-top: 0.75rem; }
-.vcard__emblems {
-  /* Завжди один ряд: емблема до 28 px, на вузькій картці трохи менша */
-  display: grid; grid-template-columns: repeat(9, minmax(0, 1.75rem)); gap: 3px;
-  padding-top: 0.9rem; border-top: 1px solid var(--line-soft);
-}
-/* Частини без цієї вакансії майже згасають, потрібні видно завжди, а наведення робить їх золотими */
-.vcard__emblems .emblem {
-  width: 100%; height: auto; aspect-ratio: 1 / 1.14;
-  font-size: 0.5625rem; background: var(--plate-2); color: var(--muted); opacity: 0.45;
-}
-.vcard__emblems .emblem.is-on { background: #57513f; color: var(--bone); opacity: 1; }
-.vcard__emblems .emblem-img { width: 100%; height: auto; filter: grayscale(1) brightness(0.65); opacity: 0.45; }
-.vcard__emblems .emblem-img.is-on { filter: grayscale(1); opacity: 1; }
-.vcard:hover .vcard__emblems .emblem.is-on, .vcard:focus-within .vcard__emblems .emblem.is-on { background: var(--gold); color: var(--ink); filter: drop-shadow(0 0 5px rgb(var(--gold-rgb) / 0.75)); }
-.vcard:hover .vcard__emblems .emblem-img.is-on, .vcard:focus-within .vcard__emblems .emblem-img.is-on { filter: drop-shadow(0 0 5px rgb(var(--gold-rgb) / 0.75)); }
 .vcard__apply { width: 100%; }
-/* Варіант 2: велика емблема фактичної частини */
+/* Велика емблема частини в картці */
 .vcard--unit .emblem { --s: 3rem; background: var(--gold); color: var(--ink); margin-bottom: 0.4rem; }
 .vcard--unit .emblem-img { width: 3rem; height: 3.4rem; filter: none; margin-bottom: 0.4rem; }
 .vac__more { display: flex; margin: 1.5rem auto 0; }
 .vac__more[hidden] { display: none; }
 .vac__state { grid-column: 1 / -1; padding: 2rem 0.5rem; color: var(--muted); }
 .vac__state a { color: var(--gold); }
-@media (hover: none) {
-  .vcard__emblems .emblem.is-on { background: var(--gold); color: var(--ink); }
-  .vcard__emblems .emblem-img.is-on { filter: none; }
-}
-
-/* Блоки, що розкриваються: варіанти секції вакансій */
-.variants { border-bottom: 1px solid var(--line); }
-.variant { border-top: 1px solid var(--line); interpolate-size: allow-keywords; }
-.variant::details-content {
-  block-size: 0; overflow: clip;
-  transition: block-size 0.45s var(--ease-soft), content-visibility 0.45s allow-discrete;
-}
-.variant[open]::details-content { block-size: auto; }
-.variant__head {
-  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 0.5rem 1.5rem;
-  padding: 1.35rem 0.25rem; cursor: pointer; list-style: none; transition: color 0.2s;
-}
-.variant__head::-webkit-details-marker { display: none; }
-.variant__name { font: 800 clamp(1rem, 1.6vw, 1.375rem)/1.2 var(--display); text-transform: uppercase; transition: color 0.2s; }
-.variant__note { color: var(--muted); font-size: 0.9375rem; line-height: 1.4; }
-.variant__icon {
-  position: relative; width: 2.25rem; height: 2.25rem; background: var(--plate-2); transition: background 0.2s;
-  clip-path: polygon(0 0, calc(100% - 7px) 0, 100% 7px, 100% 100%, 7px 100%, 0 calc(100% - 7px));
-}
-.variant__icon::before {
-  content: ''; position: absolute; left: 50%; top: 50%; width: 0.55rem; height: 0.55rem; margin: -0.42rem 0 0 -0.275rem;
-  border-right: 2px solid var(--bone); border-bottom: 2px solid var(--bone);
-  transform: rotate(45deg); transition: transform 0.35s var(--ease-soft), margin 0.35s var(--ease-soft), border-color 0.2s;
-}
-.variant__head:hover .variant__name, .variant[open] .variant__name { color: var(--gold); }
-.variant__head:hover .variant__icon, .variant[open] .variant__icon { background: var(--gold); }
-.variant__head:hover .variant__icon::before, .variant[open] .variant__icon::before { border-color: var(--ink); }
-.variant[open] .variant__icon::before { transform: rotate(-135deg); margin-top: -0.14rem; }
-.variant__body { padding: 0.5rem 0.25rem 2.5rem; }
-.variant__lead { margin: 0 0 1.5rem; }
-
 /* Анкета */
 .apply { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(2rem, 6vw, 6rem); align-items: start; }
 .apply__title {
@@ -620,9 +554,6 @@ a.social__item:hover { background: var(--gold); color: var(--ink); transform: tr
 }
 @media (max-width: 640px) {
   .vac__list { grid-template-columns: minmax(0, 1fr); }
-  .variant__head { grid-template-columns: minmax(0, 1fr) auto; }
-  .variant__note { grid-column: 1; grid-row: 2; }
-  .variant__icon { grid-column: 2; grid-row: 1 / span 2; }
 }
 @media (max-width: 1080px) {
   .units { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -641,8 +572,6 @@ a.social__item:hover { background: var(--gold); color: var(--ink); transform: tr
   .form__row { grid-template-columns: minmax(0, 1fr); }
   .form { clip-path: none; }
   .hero__actions .btn { flex: 1 1 100%; }
-  .chips { flex-wrap: nowrap; overflow-x: auto; margin-inline: calc(var(--pad) * -1); padding: 0.25rem var(--pad) 0.75rem; scrollbar-width: thin; }
-  .chip { flex: none; }
   .footer__main { grid-template-columns: minmax(0, 1fr); }
   .about--photo { grid-template-columns: minmax(0, 1fr); }
   .about__photo { order: -1; }
